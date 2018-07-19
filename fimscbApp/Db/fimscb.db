@@ -1,1 +1,74 @@
+# Query one-time parameters (Name and Firmware)
+record(bo, "$(P)InfoUpdate-Cmd")
+{
+    field(DESC, "Update setting readbacks")
+    field(ZNAM, "Revert")
+    field(ONAM, "revert")
+    field(FLNK, "$(P)InfoUpdate:1-Fout_")
+    field(HIGH, "2")
+    field( VAL, "1")
+    field(PINI, "YES")
+}
 
+record(fanout, "$(P)InfoUpdate:1-Fout_")
+{
+    field(LNK1, "$(P)FW-RB")
+    field(LNK2, "$(P)MODEL-RB")
+}
+
+# F?
+record(stringin, "$(P)FW-RB")
+{
+    field(DESC, "FirmWare Version")
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getVal(F?,40c) $(PORT)")
+}
+
+# N?
+record(stringin, "$(P)MODEL-RB")
+{
+    field(DESC, "Model Name")
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getVal(N?,40c) $(PORT)")
+}
+
+
+# U? Query with 1 second SCAN
+record(stringin, "$(P)UPTIME-RB")
+{
+    field(DESC, "Model Name")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field( INP, "@fimscb.proto getVal(U?,40c) $(PORT)")
+}
+
+
+
+
+
+record(stringout, "$(P)RAW_CMD")
+{
+    field(DESC, "Raw command")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field( OUT, "@fimscb.proto sendRawCommand $(PORT)")
+}
+
+# caput $(P)RAW_CMD "N?"
+record(stringout, "$(P)RAW_QUERY")
+{
+    field(DESC, "Raw query")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field( OUT, "@fimscb.proto sendRawQuery($(P)RAW_REPLY.VAL) $(PORT)")
+}
+
+record(stringin, "$(P)RAW_REPLY")
+{
+    field(DESC, "raw query reply")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+# V?
+# U:24198mV,IDI:249mA,IDO:256mA,IA1:251mA

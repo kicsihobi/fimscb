@@ -1,1 +1,44 @@
+#----------------------------------------------------------------------
+#
+#  StreamDevice protocol file for a reading/setting selected elements
+#  from a ESS FIM SCB Monitoring System
+#
+#  Author  : Jeong Han Lee
+#  email   : jeonghan.lee@gmail.com
+#  Date    : Thursday, July 19 17:42:10 CEST 2018
+#  version : 0.0.1
+#
+    
+ReplyTimeout = 1000;
+ReadTimeout  = 300;
 
+
+sendCmd {
+    out "\$1";
+}
+
+sendVal {
+    out "\$1 \$2";
+}
+
+# Any scaler value
+#  string:  getVal(ID,s) will send "ID?" and expect "%s".
+getVal {
+    out "\$1";
+    in "%\$2";
+}
+
+setVal {
+	out "\$1 %\$2";
+}
+
+
+sendRawCommand {
+  out "%s";
+}
+
+sendRawQuery {
+  ExtraInput = Ignore;
+  out "%s";
+  in  "%(\$1)40c";
+}
