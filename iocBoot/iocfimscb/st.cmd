@@ -1,21 +1,26 @@
 #!../../bin/linux-x86_64/fimscb
 
-#- You may have to change fimscb to something else
-#- everywhere it appears in this file
-
 < envPaths
+
+epicsEnvSet("STREAM_PROTOCOL_PATH", ".:${TOP}/db")
+
+epicsEnvSet(P, FIMSCB)
+epicsEnvSet(R, KAM)
+
+epicsEnvSet("IOCST", "$(P)-$(R):IocStats")
 
 cd "${TOP}"
 
-## Register all support components
 dbLoadDatabase "dbd/fimscb.dbd"
 fimscb_registerRecordDeviceDriver pdbbase
 
-## Load record instances
-#dbLoadRecords("db/xxx.db","user=jhlee")
+drvAsynIPPortConfigure("FIMSCB", "127.0.0.1:9999", 0, 0, 0)
+
+dbLoadRecords("db/iocAdminSoft.db",  "IOC=${IOCST}")
+dbLoadRecords("db/fimscb.db", "PREFIX=$(P)-$(R):,PORT=FIMSCB")
 
 cd "${TOP}/iocBoot/${IOC}"
+
 iocInit
 
-## Start any sequence programs
-#seq sncxxx,"user=jhlee"
+dbl > "$(TOP)/$(IOC)_PVs.list"
