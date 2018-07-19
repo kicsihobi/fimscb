@@ -1,0 +1,4 @@
+[submodule "simulator/kameleon"]
+	path = simulator/kameleon
+	url = https://github.com/jeonghanlee/kameleon.git
+	ignore = all
