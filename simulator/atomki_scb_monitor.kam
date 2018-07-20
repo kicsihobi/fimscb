@@ -1,7 +1,8 @@
-# author: Varga Máté
-# email: varga.mate@atomki.mta.hu
-# version: 1.0.1
-# date: 2018/JUL/19
+# author: Varga Máté, Jeong Han Lee
+# email: varga.mate@atomki.mta.hu, han.lee@esss.se
+#        
+# version: 1.0.2
+# date: 2018/JUL/20
 # description: Kameleon file to simulate the ESS FIM SCB Environmental Monitoring subsystem.
 
 TERMINATOR = LF
@@ -53,6 +54,8 @@ STATUSES = [
 # User-custom Python code
 import re
 import copy
+import socket
+
 
 startTime=datetime.datetime.utcnow()
 class Config( ):
@@ -66,6 +69,14 @@ class Config( ):
 
 EEPROM = Config( )
 Configuration = Config( )
+
+def valid_ip(address):
+    try: 
+        socket.inet_aton(address)
+        return True
+    except:
+        return False
+
 
 def GetName() :
      global Configuration
@@ -106,8 +117,10 @@ def GetIPAddress() :
 
 def SetIPAddress() :
      global Configuration
+     print      COMMAND_RECEIVED[2:].rstrip('\r\n')
      address = re.sub('[\r]', '', COMMAND_RECEIVED[2:].rstrip("\n"))
-     if re.match("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", address):
+     address = address.strip()
+     if valid_ip(address):
           Configuration.ip = address
           return;
      else:
@@ -123,7 +136,8 @@ def GetSubnetMask() :
 def SetSubnetMask() :
      global Configuration
      address = re.sub('[\r]', '', COMMAND_RECEIVED[2:].rstrip("\n"))
-     if re.match("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", address):
+     address = address.strip()
+     if valid_ip(address):
           Configuration.subnet = address
           return;
      else:
@@ -139,7 +153,8 @@ def GetGatewayAddress() :
 def SetGatewayAddress() :
      global Configuration
      address = re.sub('[\r]', '', COMMAND_RECEIVED[2:].rstrip("\n"))
-     if re.match("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", address):
+     address = address.strip()
+     if valid_ip(address):
           Configuration.gw = address
           return;
      else:
@@ -155,7 +170,8 @@ def GetDNSServerAddress() :
 def SetDNSServerAddress() :
      global Configuration
      address = re.sub('[\r]', '', COMMAND_RECEIVED[2:].rstrip("\n"))
-     if re.match("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", address):
+     address = address.strip()
+     if valid_ip(address):
           Configuration.dns = address
           return;
      else:
