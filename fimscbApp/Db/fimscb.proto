@@ -18,7 +18,7 @@ sendCmd {
 }
 
 sendVal {
-    out "\$1 \$2";
+    out "\$1\$2";
 }
 
 # Any scaler value
@@ -33,12 +33,36 @@ setVal {
 }
 
 
-sendRawCommand {
-  out "%s";
+
+getUVal {
+    out "V?";
+    in "U:%fmV,IDI:%*fmA,IDO:%*fmA,IA1:%*fmA,IA2:%*fmA,T:%*fmC,P:%*fPa,H:%*fmPercent";
 }
 
-sendRawQuery {
-  ExtraInput = Ignore;
-  out "%s";
-  in  "%(\$1)40c";
+getIDIVal {
+    in "U:%*fmV,IDI:%fmA,IDO:%*fmA,IA1:%*fmA,IA2:%*fmA,T:%*fmC,P:%*fPa,H:%*fmPercent";
+}
+
+getIDOVal {
+    in "U:%*fmV,IDI:%*fmA,IDO:%fmA,IA1:%*fmA,IA2:%*fmA,T:%*fmC,P:%*fPa,H:%*fmPercent";
+}
+
+getIA1Val {
+    in "U:%*fmV,IDI:%*fmA,IDO:%*fmA,IA1:%fmA,IA2:%*fmA,T:%*fmC,P:%*fPa,H:%*fmPercent";
+}
+
+getIA2Val {
+    in "U:%*fmV,IDI:%*fmA,IDO:%*fmA,IA1:%*fmA,IA2:%fmA,T:%*fmC,P:%*fPa,H:%*fmPercent";
+}
+
+getTVal {
+    in "U:%*fmV,IDI:%*fmA,IDO:%*fmA,IA1:%*fmA,IA2:%*fmA,T:%fmC,P:%*fPa,H:%*fmPercent";
+}
+
+getPVal {
+    in "U:%*fmV,IDI:%*fmA,IDO:%*fmA,IA1:%*fmA,IA2:%*fmA,T:%*fmC,P:%fPa,H:%*fmPercent";
+}
+
+getHVal {
+    in "U:%*fmV,IDI:%*fmA,IDO:%*fmA,IA1:%*fmA,IA2:%*fmA,T:%*fmC,P:%*fPa,H:%fmPercent";
 }

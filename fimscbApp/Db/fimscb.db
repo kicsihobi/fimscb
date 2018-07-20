@@ -33,7 +33,7 @@ record(stringin, "$(P)MODEL-RB")
 }
 
 
-# U? Query with 1 second SCAN
+# U? Query with 2 second SCAN
 record(stringin, "$(P)UPTIME-RB")
 {
     field(DESC, "Model Name")
@@ -43,32 +43,240 @@ record(stringin, "$(P)UPTIME-RB")
 }
 
 
-
-
-
-record(stringout, "$(P)RAW_CMD")
+# IP Address
+record(stringout, "$(P)IP-SET")
 {
-    field(DESC, "Raw command")
-    field(SCAN, "Passive")
+	field(DESC, "Set IP Address")
+	field(DTYP, "stream")
+	field( OUT, "@fimscb.proto setVal(I!,s) $(PORT)")
+	field(FLNK, "$(P)IP-RB")
+}
+
+record(stringin, "$(P)IP-RB")
+{
+	field(DESC, "Read IP Address")
+	field(DTYP, "stream")
+	field( INP, "@fimscb.proto getVal(I?,s) $(PORT)")
+	field(PINI, "YES")
+	field(FLNK, "$(P)IPUpdate-RB_")
+}
+
+record(stringout, "$(P)IPUpdate-RB_")
+{
+	field( DOL, "$(P)IP-RB NPP")
+	field(OMSL, "closed_loop")
+	field( OUT, "$(P)IP-SET NPP")
+}
+
+
+# Subnet Address
+record(stringout, "$(P)Subnet-SET")
+{
+	field(DESC, "Set Subnet Address")
+	field(DTYP, "stream")
+	field( OUT, "@fimscb.proto setVal(S!,s) $(PORT)")
+	field(FLNK, "$(P)Subnet-RB")
+}
+
+record(stringin, "$(P)Subnet-RB")
+{
+	field(DESC, "Read Subnet Address")
+	field(DTYP, "stream")
+	field( INP, "@fimscb.proto getVal(S?,s) $(PORT)")
+	field(PINI, "YES")
+	field(FLNK, "$(P)SubnetUpdate-RB_")
+}
+
+record(stringout, "$(P)SubnetUpdate-RB_")
+{
+	field( DOL, "$(P)Subnet-RB NPP")
+	field(OMSL, "closed_loop")
+	field( OUT, "$(P)Subnet-SET NPP")
+}
+
+# Gateway Address
+record(stringout, "$(P)Gateway-SET")
+{
+	field(DESC, "Set Gateway Address")
+	field(DTYP, "stream")
+	field( OUT, "@fimscb.proto setVal(G!,s) $(PORT)")
+	field(FLNK, "$(P)Gateway-RB")
+}
+
+record(stringin, "$(P)Gateway-RB")
+{
+	field(DESC, "Read Gateway Address")
+	field(DTYP, "stream")
+	field( INP, "@fimscb.proto getVal(G?,s) $(PORT)")
+	field(PINI, "YES")
+	field(FLNK, "$(P)GatewayUpdate-RB_")
+}
+
+record(stringout, "$(P)GatewayUpdate-RB_")
+{
+	field( DOL, "$(P)Gateway-RB NPP")
+	field(OMSL, "closed_loop")
+	field( OUT, "$(P)Gateway-SET NPP")
+}
+
+
+# DNS Server Address
+record(stringout, "$(P)DNSServer-SET")
+{
+	field(DESC, "Set DNSServer Address")
+	field(DTYP, "stream")
+	field( OUT, "@fimscb.proto setVal(G!,s) $(PORT)")
+	field(FLNK, "$(P)DNSServer-RB")
+}
+
+record(stringin, "$(P)DNSServer-RB")
+{
+	field(DESC, "Read DNSServer Address")
+	field(DTYP, "stream")
+	field( INP, "@fimscb.proto getVal(G?,s) $(PORT)")
+	field(PINI, "YES")
+	field(FLNK, "$(P)DNSServerUpdate-RB_")
+}
+
+record(stringout, "$(P)DNSServerUpdate-RB_")
+{
+	field( DOL, "$(P)DNSServer-RB NPP")
+	field(OMSL, "closed_loop")
+	field( OUT, "$(P)DNSServer-SET NPP")
+}
+
+
+
+
+
+# TCP Port 
+record(ao, "$(P)TCPPort-SET")
+{
+	field(DESC, "Set TCPPort Address")
+	field(DTYP, "stream")
+	field( OUT, "@fimscb.proto setVal(P!,i) $(PORT)")
+	field(FLNK, "$(P)TCPPort-RB")
+}
+
+record(ai, "$(P)TCPPort-RB")
+{
+	field(DESC, "Read TCPPort Address")
+	field(DTYP, "stream")
+	field( INP, "@fimscb.proto getVal(P?,i) $(PORT)")
+	field(PINI, "YES")
+	field(FLNK, "$(P)TCPPortUpdate-RB_")
+}
+
+record(longout, "$(P)TCPPortUpdate-RB_")
+{
+	field( DOL, "$(P)TCPPort-RB NPP")
+	field(OMSL, "closed_loop")
+	field( OUT, "$(P)TCPPort-SET NPP")
+}
+
+# Real all Values 
+record (ai, "$(P)U-RB") 
+{
+    field(DESC, "U") 
     field(DTYP, "stream")
-    field( OUT, "@fimscb.proto sendRawCommand $(PORT)")
+    field( INP, "@fimscb.proto getUVal $(PORT)")
+    field( EGU, "mV")
+    field(SCAN, "1 second")
 }
 
-# caput $(P)RAW_CMD "N?"
-record(stringout, "$(P)RAW_QUERY")
+record (ai, "$(P)IDI-RB") 
 {
-    field(DESC, "Raw query")
-    field(SCAN, "Passive")
+    field(DESC, "IDI") 
     field(DTYP, "stream")
-    field( OUT, "@fimscb.proto sendRawQuery($(P)RAW_REPLY.VAL) $(PORT)")
+    field( INP, "@fimscb.proto getIDIVal $(PORT)")
+    field( EGU, "mA")
+    field(SCAN, "I/O Intr")
 }
 
-record(stringin, "$(P)RAW_REPLY")
+record (ai, "$(P)IDO-RB") 
 {
-    field(DESC, "raw query reply")
-    field(SCAN, "Passive")
-    field(DTYP, "Soft Channel")
+    field(DESC, "IDO") 
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getIDOVal $(PORT)")
+    field( EGU, "mA")
+    field(SCAN, "I/O Intr")
+} 
+
+
+record (ai, "$(P)IA1-RB") 
+{
+    field(DESC, "IA1") 
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getIA1Val $(PORT)")
+    field( EGU, "mA")
+    field(SCAN, "I/O Intr")
 }
 
-# V?
-# U:24198mV,IDI:249mA,IDO:256mA,IA1:251mA
+record (ai, "$(P)IA2-RB") 
+{
+    field(DESC, "IA2") 
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getIA2Val $(PORT)")
+    field( EGU, "mA")
+    field(SCAN, "I/O Intr")
+} 
+
+
+record (ai, "$(P)Temperature-RB") 
+{
+    field(DESC, "Temperture") 
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getTVal $(PORT)")
+    field( EGU, "mC")
+    field(SCAN, "I/O Intr")
+}
+
+
+record (ai, "$(P)Pressure-RB") 
+{
+    field(DESC, "Pressure") 
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getPVal $(PORT)")
+    field( EGU, "Pa")
+    field(SCAN, "I/O Intr")
+}
+
+
+record (ai, "$(P)Humidity-RB") 
+{
+    field(DESC, "Humidity") 
+    field(DTYP, "stream")
+    field( INP, "@fimscb.proto getHVal $(PORT)")
+    field( EGU, "mPercent")
+    field(SCAN, "I/O Intr")
+}
+
+
+# Write Configuration does the internal work
+# Save all configuration into EEPROM
+# Read Configuration does alsl the internal work
+# Read EEPROM to save Configuration
+#
+record(ao, "$(P)WriteConf-SET")
+{
+	field(DESC, "Write Configuration Set")
+	field(DTYP, "stream")
+	field( OUT, "@fimscb.proto sendCmd(C!) $(PORT)")
+	field(FLNK, "$(P)WriteConf-RB")
+}
+
+record(ai, "$(P)WriteConf-RB")
+{
+	field(DESC, "Read Configuration Set")
+	field(DTYP, "stream")
+	field( INP, "@fimscb.proto getVal(C?,i) $(PORT)")
+	field(PINI, "YES")
+	field(FLNK, "$(P)WriteConf-RB_")
+}
+
+record(longout, "$(P)WriteConf-RB_")
+{
+	field( DOL, "$(P)WriteConf-RB NPP")
+	field(OMSL, "closed_loop")
+	field( OUT, "$(P)WriteConf-RB NPP")
+}

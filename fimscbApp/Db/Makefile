@@ -8,7 +8,9 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 #DB += xxx.db
 DB += fimscb.db
+DB += stream_raw.db
 DB_INSTALLS += $(TOP)/fimscbApp/Db/fimscb.proto
+DB_INSTALLS += $(TOP)/fimscbApp/Db/stream_raw.proto
 DB_INSTALLS += $(devIocStats)/db/iocAdminSoft.db
 
 
