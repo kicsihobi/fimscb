@@ -16,3 +16,6 @@ core.*
 db/
 dbd/
 bin/
+O.Common
+O.*
+envPaths

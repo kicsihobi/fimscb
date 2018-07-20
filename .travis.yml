@@ -1,0 +1,16 @@
+sudo: false
+dist: trusty
+language: c
+env:
+ - BASE=3.16 STATIC=shared
+ - BASE=3.15 STATIC=shared
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libpcre++-dev  libpcre3-dev 
+  
+install:
+ - ./.ci/prepare-epics.sh
+
+script:
+ - ./.ci/build-epics.sh
