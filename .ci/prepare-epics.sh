@@ -55,7 +55,7 @@ EOF
     ;;
   esac
 
-  make -C "$EPICS_BASE" -j2
+  make -C "$EPICS_BASE" -j4
 
   touch "$CDIR/built"
 fi
@@ -76,9 +76,8 @@ then
   echo "EPICS_BASE=$EPICS_BASE" >  ${ASYN}/configure/RELEASE
   echo "CHECK_RELEASE = YES"    >  ${ASYN}/configure/CONFIG_SITE
   echo "LINUX_GPIB=NO"          >> ${ASYN}/configure/CONFIG_SITE
-  echo "DRV_USBTMC=YES"         >> ${ASYN}/configure/CONFIG_SITE
 
-  make -C "$ASYN" -j2
+  make -C "$ASYN" -j4
 
   touch "$CDIR/built"
 fi
