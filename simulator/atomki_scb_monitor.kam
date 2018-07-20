@@ -70,6 +70,8 @@ class Config( ):
 EEPROM = Config( )
 Configuration = Config( )
 
+
+# https://docs.python.org/2/library/socket.html
 def valid_ip(address):
     try: 
         socket.inet_aton(address)
