@@ -1,0 +1,27 @@
+
+
+
+
+record(stringout, "$(P)RAW_CMD")
+{
+    field(DESC, "Raw command")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field( OUT, "@stream_raw.proto sendRawCommand $(PORT)")
+}
+
+# caput $(P)RAW_CMD "N?"
+record(stringout, "$(P)RAW_QUERY")
+{
+    field(DESC, "Raw query")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field( OUT, "@stream_raw.proto sendRawQuery($(P)RAW_REPLY.VAL) $(PORT)")
+}
+
+record(stringin, "$(P)RAW_REPLY")
+{
+    field(DESC, "raw query reply")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}

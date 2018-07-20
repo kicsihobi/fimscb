@@ -1,0 +1,11 @@
+
+sendRawCommand {
+  out "%s";
+}
+
+sendRawQuery {
+  ExtraInput = Ignore;
+  out "%s";
+  in  "%(\$1)40c";
+}
+
