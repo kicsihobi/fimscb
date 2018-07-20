@@ -1,6 +1,6 @@
 # fimscb
 
-
+[![Build Status](https://travis-ci.org/icshwi/fimscb.svg?branch=master)](https://travis-ci.org/icshwi/fimscb)
 
 
 ## Simulator
