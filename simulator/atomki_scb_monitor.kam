@@ -230,6 +230,6 @@ def GetValues( ):
      H = 40000 + random.randrange( -10000, 10000 )
      P = 10000 + random.randrange( -100, 100 )
      if re.sub('[\r]', '', COMMAND_RECEIVED).rstrip("\n") == "V?" :
-          return "U:" + str(U) + "mV,IDI:" + str(IDI) + "mA,IDO:" + str(IDO) + "mA,IA1:" + str(IA1) + "mA,IA2:" + str(IA2) + "mA,T:" + str(T) + "mC,P:" + str(P) + "0Pa,H:" + str(H) + "m%"
+          return "U:" + str(U) + "mV,IDI:" + str(IDI) + "mA,IDO:" + str(IDO) + "mA,IA1:" + str(IA1) + "mA,IA2:" + str(IA2) + "mA,T:" + str(T) + "mC,P:" + str(P) + "0Pa,H:" + str(H) + "mPercent"
      else :
           return "Invalid Command!"
