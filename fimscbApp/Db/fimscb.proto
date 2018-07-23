@@ -29,7 +29,7 @@ getVal {
 }
 
 setVal {
-	out "\$1 %\$2";
+	out "\$1%\$2";
 }
 
 

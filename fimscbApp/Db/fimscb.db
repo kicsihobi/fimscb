@@ -33,12 +33,11 @@ record(stringin, "$(P)MODEL-RB")
 }
 
 
-# U? Query with 2 second SCAN
+# U? Query sync with $(P)Humidity-RB is the end of $(P)U-RB (read all values)
 record(stringin, "$(P)UPTIME-RB")
 {
     field(DESC, "Model Name")
     field(DTYP, "stream")
-    field(SCAN, "1 second")
     field( INP, "@fimscb.proto getVal(U?,40c) $(PORT)")
 }
 
@@ -249,6 +248,7 @@ record (ai, "$(P)Humidity-RB")
     field( INP, "@fimscb.proto getHVal $(PORT)")
     field( EGU, "mPercent")
     field(SCAN, "I/O Intr")
+    field(FLNK, "$(P)UPTIME-RB")
 }
 
 

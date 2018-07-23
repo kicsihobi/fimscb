@@ -5,7 +5,7 @@
 # date: 2018/JUL/20
 # description: Kameleon file to simulate the ESS FIM SCB Environmental Monitoring subsystem.
 
-TERMINATOR = LF
+# TERMINATOR = CR
 
 COMMANDS = [
      [ "Get Name",               "N?***",  1 ],
