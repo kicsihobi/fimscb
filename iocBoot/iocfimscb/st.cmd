@@ -21,7 +21,7 @@ drvAsynIPPortConfigure($(PORT), "127.0.0.1:9999", 0, 0, 0)
 # <0x0d> \r
 # <0x0a> \n
 asynOctetSetInputEos($(PORT), 0, "\r\n")
-asynOctetSetOutputEos($(PORT), 0, "\r")
+asynOctetSetOutputEos($(PORT), 0, "\n")
 #asynOctetSetInputEos($(PORT), 0, "\n")
 #asynOctetSetOutputEos($(PORT), 0, "\r\n")
 
